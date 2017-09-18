@@ -23,15 +23,44 @@ end
 
 control 'cis-kubernetes-benchmark-1.1.1' do
   title 'Ensure that the --allow-privileged argument is set to false'
-  desc "Do not allow privileged containers.\n\nRationale: The privileged container has all the system capabilities, and it also lifts all the limitations enforced by the device cgroup controller. In other words, the container can then do almost everything that the host can do. This flag exists to allow special use-cases, like running Docker within Docker and hence should be avoided for production workloads."
+  desc 'Do not allow privileged containers.'
   impact 1.0
 
-  tag cis: 'kubernetes:1.1.1'
-  tag level: 1
+  tag rationale: "The privileged container has all the system capabilities, and
+  it also lifts all the limitations enforced by the device cgroup controller. In
+  other words, the container can then do almost everything that the host can do.
+  This flag exists to allow special use-cases, like running Docker within Docker
+  and hence should be avoided for production workloads."
 
+  tag check: "Run the following command on the master node:
+
+  `$ ps -ef | grep kube-apiserver`
+
+  Verify that the `--allow-privileged` argument is set to `false`."
+
+  tag fix: "Edit the `/etc/kubernetes/config` file on the master node and set the
+  `KUBE_ALLOW_PRIV` parameter to \"--allow-privileged=false\":
+
+  `KUBE_ALLOW_PRIV=\"--allow-privileged=false\"`
+
+  Based on your system, restart the `kube-apiserver` service.
+
+  For example: `systemctl restart kube-apiserver.service`"
+
+  tag cis_family: ['5', '6.1']
+  tag cis_rid: "1.1.1"
+  tag cis_level: 1
+  tag nist: ['AC-6', '4']
+  # @todo verify/add sub-family NIST mapping
+
+  ref 'kube-apiserver', url: 'https://kubernetes.io/docs/admin/kube-apiserver/'
+  ref 'security-context', url: 'https://kubernetes.io/docs/user-guide/security-context/'
+
+  # @FIXME refactor: we have found that using ruby commands in the describe statment can cause issues
   describe processes('kube-apiserver').commands.to_s do
     it { should match(/--allow-privileged=false/) }
   end
+  # @todo add a check to validate the config file as well
 end
 
 control 'cis-kubernetes-benchmark-1.1.2' do
