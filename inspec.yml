@@ -4,5 +4,5 @@ maintainer: Kristian Vlaardingerbroek
 copyright: Schuberg Philis B.V.
 copyright_email: kvlaardingerbroek@schubergphilis.com
 license: Apache-2.0
-summary: An InSpec Compliance profile for the CIS Kubernetes Benchmark
+summary: Inspec profile testing compliance with CIS benchmark for kubernetes
 version: 0.2.0
