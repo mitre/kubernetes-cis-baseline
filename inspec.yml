@@ -1,8 +1,9 @@
-name: cis-kubernetes-benchmark
-title: CIS Kubernetes Benchmark Profile
+name: kubernetes-cis-baseline
+title: kubernetes-cis-baseline
 maintainer: Kristian Vlaardingerbroek
 copyright: Schuberg Philis B.V.
 copyright_email: kvlaardingerbroek@schubergphilis.com
 license: Apache-2.0
-summary: Inspec profile testing compliance with CIS benchmark for kubernetes
-version: 0.2.0
+summary: "Inspec Validation Profile for Kubernetes CIS"
+version: 0.2.1
+inspec_version: ">= 4.0"
