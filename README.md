@@ -1,36 +1,69 @@
-# CIS Kubernetes Benchmark - InSpec Profile
+# kubernetes-cis-baseline
 
-## Description
-This profile implements the [CIS Kubernetes 1.1.0 Benchmark](https://www.cisecurity.org/benchmark/kubernetes/).
+InSpec Profile to validate the secure configuration of kubernetes-cis-baseline, against [CIS'](https://www.cisecurity.org/cis-benchmarks/) Kubernetes Benchmark
 
-## Attributes
+## Getting Started  
+It is intended and recommended that InSpec run this profile from a __"runner"__ host (such as a DevOps orchestration server, an administrative management system, or a developer's workstation/laptop) against the target remotely over __ssh__.
 
-To switch between the CIS profile levels the following attribute can be used:
+The latest versions and installation options are available at the [InSpec](http://inspec.io/) site.
 
-  * `cis_level: 2`
-    define which profile level to use, accepted values are `1` and `2`.
+# Running This Baseline Directly from Github
 
-## License and Author
+```
+# How to run
+inspec exec https://github.com/mitre/kubernetes-cis-baseline/archive/master.tar.gz -t ssh:// --input-file=<path_to_your_inputs_file/name_of_your_inputs_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json>
+```
 
-* Author:: Kristian Vlaardingerbroek <kvlaardingerbroek@schubergphilis.com>
+### Different Run Options
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+  [Full exec options](https://docs.chef.io/inspec/cli/#options-3)
 
-    http://www.apache.org/licenses/LICENSE-2.0
+## Running This Baseline from a local Archive copy 
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+If your runner is not always expected to have direct access to GitHub, use the following steps to create an archive bundle of this baseline and all of its dependent tests:
 
-### NOTICE  
+(Git is required to clone the InSpec profile using the instructions below. Git can be downloaded from the [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) site.)
 
-© 2020 The MITRE Corporation.  
+When the __"runner"__ host uses this profile baseline for the first time, follow these steps: 
 
-Approved for Public Release; Distribution Unlimited. Case Number 18-3678.  
+```
+mkdir profiles
+cd profiles
+git clone https://github.com/mitre/kubernetes-cis-baseline
+inspec archive kubernetes-cis-baseline
+inspec exec <name of generated archive> -t ssh:// --input-file=<path_to_your_inputs_file/name_of_your_inputs_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json>
+```
+For every successive run, follow these steps to always have the latest version of this baseline:
+
+```
+cd kubernetes-cis-baseline
+git pull
+cd ..
+inspec archive kubernetes-cis-baseline --overwrite
+inspec exec <name of generated archive> -t ssh:// --input-file=<path_to_your_inputs_file/name_of_your_inputs_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json>
+```
+
+## Viewing the JSON Results
+
+The JSON results output file can be loaded into __[heimdall-lite](https://heimdall-lite.mitre.org/)__ for a user-interactive, graphical view of the InSpec results. 
+
+The JSON InSpec results file may also be loaded into a __[full heimdall server](https://github.com/mitre/heimdall)__, allowing for additional functionality such as to store and compare multiple profile runs.
+
+## Authors
+* Kristian Vlaardingerbroek <kvlaardingerbroek@schubergphilis.com>
+
+## Special Thanks 
+* Mohamed El-Sharkawi - [HackerShark](https://github.com/HackerShark)
+* Shivani Karikar - [karikarshivani](https://github.com/karikarshivani)
+
+## Contributing and Getting Help
+To report a bug or feature request, please open an [issue](https://github.com/mitre/kubernetes-cis-baseline/issues/new).
+
+### NOTICE
+
+© 2018-2020 The MITRE Corporation.
+
+Approved for Public Release; Distribution Unlimited. Case Number 18-3678.
 
 ## NOTICE  
 
